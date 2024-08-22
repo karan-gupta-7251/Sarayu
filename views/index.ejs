@@ -6,7 +6,7 @@
     </form> -->
   <div class="row ">
     <% for (let listing of allListings) { %>
-    <div class="card " style="width: 20rem">
+    <div class="card listing-card" style="width: 20rem">
       <a  href="/listings/<%= listing._id %>">
         <img
           src="<%= listing.image %>"

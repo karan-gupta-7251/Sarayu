@@ -99,7 +99,7 @@ body {
 
 /* Cards */
 
-.card {
+.listing-card {
   border: none !important;
   margin: auto;
   margin-bottom: 7rem;
@@ -121,7 +121,7 @@ body {
 }
 
 /* Card effect */
-.card:hover {
+.listing-card:hover {
   box-shadow: 0 0.1rem .5rem rgb(0, 31, 35);
   background-color: #c4edf5ae;
 }
@@ -139,6 +139,7 @@ body {
 .edit-btn{
   background-color: rgb(96, 47, 34) !important;
   border: none !important;
+  color: #fff !important;
 }
 
 /* Show */
