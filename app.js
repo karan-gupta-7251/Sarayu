@@ -34,10 +34,12 @@ async function main() {
 }
 
 const validatelisting = (req, res, next) => {
+  if (!req.body.listing) {
+    throw new expressError(400, "Listing data is missing.");
+  }
   let { error } = listingschema.validate(req.body);
   if (error) {
-    console.log(error);
-    let errMsg = err.details.map((el) => el.message).join(",");
+    let errMsg = error.details.map((el) => el.message).join(",");    
     throw new expressError(400,errMsg)
   } else {
     next();
@@ -48,7 +50,7 @@ const validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
   if (error) {
     console.log(error);
-    let errMsg = err.details.map((el) => el.message).join(",");
+    let errMsg = error.details.map((el) => el.message).join(",");
     throw new expressError(400,errMsg)
   } else {
     next();
@@ -69,7 +71,7 @@ app.get(
   "/listings/:id",
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("show.ejs", { listing });
   })
 );
@@ -144,12 +146,12 @@ app.delete(
 app.post("/listings/:id/reviews", validateReview, wrapAsync( async (req, res) => {
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review(req.body.review);
-
-  listing.reviews.push(newReview);
+  console.log(newReview)
+  listing.reviews.push(listing);
   await newReview.save();
   await listing.save();
 
-  res.redirect(`/listing/${listing._id}`);
+  res.redirect(`/listings/${listing._id}`);
 }));
 
 // app.get("/testListing", async (req, res) => {
@@ -179,7 +181,7 @@ app.post("/listings/:id/reviews", validateReview, wrapAsync( async (req, res) =>
 // });
 
 app.all("*", (req, res, next) => {
-  next(new ExpressError(404, "Not Found"));
+  next(new expressError(404, "Not Found"));
 });
 app.use((err, req, res, next) => {
   let { statusCode = 500, msg = "Some error" } = err;

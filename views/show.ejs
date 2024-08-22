@@ -34,7 +34,7 @@
     <div>
       <hr>
       <h4>Leave a Reaview</h4>
-      <form novalidate class="needs-validation" action="/listing/<%=listing._id %>/reviews" method="post">
+      <form novalidate class="needs-validation" action="/listings/<%=listing._id %>/reviews" method="POST">
         <div class="mb-3 mt-3">
           <label class="form-label" for="rating">Rating</label>
           <input class="form-range" type="range" min="1" max="5" id="rating" name="review[rating]">
@@ -46,6 +46,14 @@
         </div>
         <button class="btn btn-outline-dark">Submit</button>
       </form>
+      <hr>
+      <h4>All Reviews</h4>
+      <ul>
+        
+        <% for(review of listing.reviews){ %>
+        <li><%= review.comment %>, <%= review.rating %></li>  
+          <% } %>
+        </ul>
     </div>
   </div>
   <br>
