@@ -28,6 +28,11 @@ router.get(
     })
   );
   
+  //New route
+  router.get("/new", (req, res) => {
+    res.render("new.ejs");
+  });
+  
   //Show route
   router.get(
     "/:id",
@@ -38,11 +43,6 @@ router.get(
     })
   );
   
-  //New route
-  router.get("/new", (req, res) => {
-    res.render("new.ejs");
-  });
-  
   //Create route
   // app.post("/listings", validatelisting,wrapAsync( async (req,res)=>{
   //     let {title , description , url , price , country, location} = req.body;
@@ -51,7 +51,7 @@ router.get(
   //     res.redirect("/listings")
   // }));
   router.post(
-    "/",
+    "",
     validatelisting,
     wrapAsync(async (req, res) => {
       let listing = req.body.listing;
@@ -78,15 +78,16 @@ router.get(
     validatelisting,
     wrapAsync(async (req, res) => {
       let { id } = req.params;
-      let { title, description, url, price, country, location } = req.body;
-      let listing = await Listing.findByIdAndUpdate(id, {
-        title,
-        description,
-        url,
-        price,
-        country,
-        location,
-      });
+      // let { title, description, url, price, country, location } = req.body;
+      // let listing = await Listing.findByIdAndUpdate(id, {
+      //   title,
+      //   description,
+      //   url,
+      //   price,
+      //   country,
+      //   location,
+      // });
+      let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
       res.redirect(`/listings/${id}`);
     })
   );
