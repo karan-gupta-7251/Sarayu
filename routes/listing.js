@@ -21,7 +21,7 @@ const validatelisting = (req, res, next) => {
 
 //Index route
 router.get(
-    "/listings",
+    "/",
     wrapAsync(async (req, res) => {
       const allListings = await Listing.find({});
       res.render("index.ejs", { allListings });
@@ -30,7 +30,7 @@ router.get(
   
   //Show route
   router.get(
-    "/listings/:id",
+    "/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       const listing = await Listing.findById(id).populate("reviews");
@@ -39,7 +39,7 @@ router.get(
   );
   
   //New route
-  router.get("/listings/new", (req, res) => {
+  router.get("/new", (req, res) => {
     res.render("new.ejs");
   });
   
@@ -51,7 +51,7 @@ router.get(
   //     res.redirect("/listings")
   // }));
   router.post(
-    "/listings",
+    "/",
     validatelisting,
     wrapAsync(async (req, res) => {
       let listing = req.body.listing;
@@ -64,7 +64,7 @@ router.get(
   
   // Edit route
   router.get(
-    "/listings/:id/edit",
+    "/:id/edit",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let listing = await Listing.findById(id);
@@ -74,7 +74,7 @@ router.get(
   
   // Update route
   router.put(
-    "/listings/:id",
+    "/:id",
     validatelisting,
     wrapAsync(async (req, res) => {
       let { id } = req.params;
@@ -93,7 +93,7 @@ router.get(
   
   // Delete route
   router.delete(
-    "/listings/:id",
+    "/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let deletedValue = await Listing.findByIdAndDelete(id);
