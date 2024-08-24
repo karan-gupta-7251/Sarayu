@@ -3,7 +3,7 @@ const router = express.Router();
 const Listing = require("../models/listing.js");
 const wrapAsync = require("../Utils/wrapAsync.js");
 const expressError = require("../Utils/expressError.js");
-const { listingschema, reviewSchema } = require("../schema.js");
+const { listingschema } = require("../schema.js");
 
 
 const validatelisting = (req, res, next) => {
@@ -39,7 +39,7 @@ router.get(
   );
   
   //New route
-  router.get("/listing/new", (req, res) => {
+  router.get("/listings/new", (req, res) => {
     res.render("new.ejs");
   });
   
@@ -64,7 +64,7 @@ router.get(
   
   // Edit route
   router.get(
-    "/listing/:id/edit",
+    "/listings/:id/edit",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let listing = await Listing.findById(id);
@@ -74,7 +74,7 @@ router.get(
   
   // Update route
   router.put(
-    "/listing/:id",
+    "/listings/:id",
     validatelisting,
     wrapAsync(async (req, res) => {
       let { id } = req.params;
@@ -93,7 +93,7 @@ router.get(
   
   // Delete route
   router.delete(
-    "/listing/:id",
+    "/listings/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let deletedValue = await Listing.findByIdAndDelete(id);
