@@ -3,7 +3,7 @@ const router = express.Router();
 const wrapAsync = require("../Utils/wrapAsync.js");
 const expressError = require("../Utils/expressError.js");
 const { reviewSchema } = require("../schema.js");
-const listings = require("../routes/listing.js")
+const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
 
 
