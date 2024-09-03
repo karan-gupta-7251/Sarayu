@@ -8,15 +8,26 @@ const Review = require("../models/review.js");
 
 
 const validateReview = (req, res, next) => {
-    let { error } = reviewSchema.validate(req.body);
-    if (error) {
-      console.log(error);
-      let errMsg = error.details.map((el) => el.message).join(",");
-      throw new expressError(400, errMsg);
-    } else {
-      next();
-    }
+  let {error }= reviewSchema.validate(req.body);
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new expressError(404,errMsg);
+  }else{
+    next();
+  }
   };
+  
+
+// const validateReview = (req, res, next) => {
+//     let { error } = reviewSchema.validate(req.body);
+//     if (error) {
+//       console.log(error);
+//       let errMsg = error.details.map((el) => el.message).join(",");
+//       throw new expressError(400, errMsg);
+//     } else {
+//       next();
+//     }
+//   };
   
   
 
