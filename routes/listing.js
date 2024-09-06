@@ -198,18 +198,38 @@ router.post(
 );
 
 // Edit route
+// router.get(
+//   "/:id/edit",
+//   wrapAsync(async (req, res) => {
+//     let { id } = req.params;
+//     let listing = await Listing.findById(id);
+//     if (!listing) {
+//       req.flash("error", "This Listing is not exist!");
+//       res.redirect("/listings");
+//     }
+//     res.render("edit.ejs", { listing });
+//   })
+// );
 router.get(
   "/:id/edit",
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let listing = await Listing.findById(id);
-    if (!listing) {
-      req.flash("error", "This Listing is not exist!");
+    try {
+      let listing = await Listing.findById(id);
+      if (!listing) {
+        req.flash("error", "This Listing is not exist!");
+        res.redirect("/listings");
+      } else {
+        // You might want to add a check here to ensure the user is authorized to edit the listing
+        res.render("edit.ejs", { listing });
+      }
+    } catch (err) {
+      req.flash("error", "An error occurred while retrieving the listing.");
       res.redirect("/listings");
     }
-    res.render("edit.ejs", { listing });
   })
 );
+
 
 // Update route
 router.put(
