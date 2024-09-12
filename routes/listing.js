@@ -164,11 +164,15 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
     if (!listing) {
       req.flash("error", "This Listing is not exist!");
       res.redirect("/listings");
     } else {
+      console.log(listing);
+      
       res.render("show.ejs", { listing });
     }
   } catch (err) {
