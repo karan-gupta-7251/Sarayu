@@ -195,7 +195,7 @@ router.post(
   wrapAsync(async (req, res) => {
     let listing = req.body.listing;
     console.log(listing);
-    newListing.owner = req.user._id;
+    Listing.owner = req.user._id;
     let saveListing = await Listing.create(listing); //or we can do== new Listing(listing).save();
     console.log(saveListing);
     req.flash("success", "New Listing Created!");
