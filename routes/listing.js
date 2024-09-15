@@ -171,8 +171,7 @@ router.get("/:id", async (req, res) => {
       req.flash("error", "This Listing is not exist!");
       res.redirect("/listings");
     } else {
-      console.log(listing);
-
+      
       res.render("show.ejs", { listing });
     }
   } catch (err) {
@@ -201,7 +200,6 @@ router.post(
     // req.flash("success", "New Listing Created!");
     // res.redirect("/listings");
     let listing = req.body.listing;
-    console.log(listing);
     listing.owner = req.user._id; // Assign owner to the listing object
     let saveListing = await Listing.create(listing); // Save the listing
     console.log(saveListing);
@@ -260,11 +258,14 @@ router.put(
     //   country,
     //   location,
     // });
-    let listing = Listing.findById(id);
-    if (!currUser && listing.owner.equals(res.locals.currUser._id)) {
+    const listing = await Listing.findById(id);
+
+
+    if (!res.locals.currUser._id.equals(listing.owner._id)) {
       req.flash("error", "You don't have permission to edit");
-      res.redirect(`/listings/${id}`);
+      return res.redirect(`/listings/${id}`);
     }
+
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`);

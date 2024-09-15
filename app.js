@@ -110,10 +110,10 @@ app.use("/", userRouter);
 // // res.status(statusCode).send(message);
 // });
 
-app.all("*", (req, res, next) => {
-  next(new expressError(404, "Not Found"));
-});
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message = "Some error" } = err;
-  res.status(statusCode).render("error.ejs", { err });
-});
+// app.all("*", (req, res, next) => {
+//   next(new expressError(404, "Not Found"));
+// });
+// app.use((err, req, res, next) => {
+//   let { statusCode = 500, message = "Some error" } = err;
+//   res.status(statusCode).render("error.ejs", { err });
+// });
