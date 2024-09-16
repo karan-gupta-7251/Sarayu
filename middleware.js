@@ -1,3 +1,10 @@
+const Listing = require("./models/listing.js")
+const expressError = require("./Utils/expressError.js");
+const { listingschema, reviewSchema } = require("./schema.js");
+
+
+const { model } = require("mongoose");
+
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
@@ -15,3 +22,34 @@ module.exports.saveRedirectUrl = (req, res, next) => {
   next();
 };
 
+module.exports.isOwner = async (req,res,next)=>{
+  let { id } = req.params;
+  let listing = await Listing.findById(id);
+  if (!res.locals.currUser._id.equals(listing.owner._id)) {
+    req.flash("error", "You are not the owner of the listing");
+    return res.redirect(`/listings/${id}`);
+    }
+    next();
+}
+
+module.exports.validatelisting = (req, res, next) => {
+  let { error } = listingschema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new expressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
+
+module.exports.validateReview = (req, res, next) => {
+  let {error }= reviewSchema.validate(req.body);
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new expressError(404,errMsg);
+  }else{
+    next();
+  }
+  };
+  

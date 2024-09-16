@@ -121,17 +121,7 @@ const Listing = require("../models/listing.js");
 const wrapAsync = require("../Utils/wrapAsync.js");
 const expressError = require("../Utils/expressError.js");
 const { listingschema } = require("../schema.js");
-const { isLoggedIn } = require("../middleware.js");
-
-const validatelisting = (req, res, next) => {
-  let { error } = listingschema.validate(req.body);
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new expressError(400, errMsg);
-  } else {
-    next();
-  }
-};
+const { isLoggedIn, isOwner, validatelisting } = require("../middleware.js");
 
 //Index route
 router.get(
@@ -171,7 +161,6 @@ router.get("/:id", async (req, res) => {
       req.flash("error", "This Listing is not exist!");
       res.redirect("/listings");
     } else {
-      
       res.render("show.ejs", { listing });
     }
   } catch (err) {
@@ -224,6 +213,7 @@ router.post(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     try {
@@ -246,26 +236,10 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isOwner,
   validatelisting,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    // let { title, description, url, price, country, location } = req.body;
-    // let listing = await Listing.findByIdAndUpdate(id, {
-    //   title,
-    //   description,
-    //   url,
-    //   price,
-    //   country,
-    //   location,
-    // });
-    const listing = await Listing.findById(id);
-
-
-    if (!res.locals.currUser._id.equals(listing.owner._id)) {
-      req.flash("error", "You don't have permission to edit");
-      return res.redirect(`/listings/${id}`);
-    }
-
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`);
@@ -276,6 +250,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedValue = await Listing.findByIdAndDelete(id);
