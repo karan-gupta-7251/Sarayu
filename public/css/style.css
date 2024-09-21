@@ -6,18 +6,16 @@ body {
   min-height: 100vh;
 }
 
-.container{
+.container {
   flex: 1;
 }
 
 /* Navbar Styles */
 
-.navbar-collapse{
+.navbar-collapse {
   background-color: #fff;
   transition: all 0.4s ease-in-out;
-
 }
-
 
 .navbar {
   height: 5rem;
@@ -27,13 +25,12 @@ body {
 }
 
 .navbar:hover {
-  box-shadow: 0 0.1rem .5rem rgb(0, 31, 35);
+  box-shadow: 0 0.1rem 0.5rem rgb(0, 31, 35);
 }
 
 @media only screen and (max-width: 767px) {
   .navbar:hover {
-    box-shadow: 0 .1rem .5rem #fff;
-
+    box-shadow: 0 0.1rem 0.5rem #fff;
   }
 }
 .fa-ship {
@@ -122,21 +119,19 @@ body {
 
 /* Card effect */
 .listing-card:hover {
-  box-shadow: 0 0.1rem .5rem rgb(0, 31, 35);
+  box-shadow: 0 0.1rem 0.5rem rgb(0, 31, 35);
   background-color: #c4edf5ae;
 }
 
-
 /* New */
-.new-btn{
+.new-btn {
   background-color: rgb(96, 47, 34) !important;
   border: none !important;
 }
 
-
 /* edit */
 
-.edit-btn{
+.edit-btn {
   background-color: rgb(96, 47, 34) !important;
   border: none !important;
   color: #fff !important;
@@ -144,21 +139,26 @@ body {
 
 /* Show */
 
-.show-img{
+.show-img {
   height: 30vh;
 }
 
-
-
-.card-del:hover{
+.card-del:hover {
   background-color: #fff;
   box-shadow: none;
 }
 
-.btns{
+.btns {
   display: flex;
   margin-top: 1rem;
 }
-.reviews-card{
+.reviews-card {
   padding-left: 0 !important;
+}
+
+/* Map */
+
+#map {
+height: 400px;
+width: 60vh;
 }

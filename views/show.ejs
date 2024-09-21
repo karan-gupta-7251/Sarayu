@@ -1,8 +1,10 @@
-<% layout("/layouts/boilerplate") %>
+
+
+  <% layout("/layouts/boilerplate") %>
 
 <body>
   <div class="row">
-    <h1 class="col-8 offset-1"><%=listing.title %></h1>
+    <h1 class="col-8 offset-1"><%= listing.title %></h1>
     <div class="col-8 offset-2">
     </div>
     <div class="listing-card col-11 card-del">
@@ -29,7 +31,6 @@
 
     <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
       
-      
       <div class="btns mb-5">
         <a class="btn btn-dark offset-2 edit-btn" href="/listings/<%=listing._id %>/edit">Edit this Listing</a>
         <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
@@ -39,10 +40,9 @@
       <%} %>
       <% if (currUser) {%>
         
-        
         <div>
      
-      <h4>Leave a Reaview</h4>
+      <h4>Leave a Review</h4>
       <form novalidate class="needs-validation" action="/listings/<%=listing._id %>/reviews" method="POST">
         <!-- <div class="mb-3 mt-3">
           <label class="form-label" for="rating">Rating</label>
@@ -96,6 +96,18 @@
 <div class="col-6 offset-1 mb-3 mt-2">
   <h3>Where you'll be</h3>
   <div id="map"></div>
-</div>
+  </div>
+  <script>
+    let mapToken = "<%= process.env.MAP_TOKEN %>";
+    console.log(mapToken);
+    mapboxgl.accessToken = mapToken;
+    mapboxgl.on('style.load', function() {
+      const map = new mapboxgl.Map({
+          container: 'map', // container ID
+          center: [-74.5, 40], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+          zoom: 9 // starting zoom
+      });
+    });
+  </script>
   <br>
 </body>
