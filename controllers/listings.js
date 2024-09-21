@@ -29,10 +29,10 @@ module.exports.showListing = async (req, res) => {
 
 module.exports.createListing = async (req, res) => {
   let url = req.file.path;
-  let filename = req.file.filename; 
+  let filename = req.file.filename;
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
-  newListing.image = {url, filename};
+  newListing.image = { url, filename };
   await newListing.save();
   req.flash("success", "New Listing Created!");
   res.redirect("/listings");
@@ -46,8 +46,10 @@ module.exports.renderEditForm = async (req, res) => {
       req.flash("error", "This Listing is not exist!");
       res.redirect("/listings");
     } else {
+      let orignalImageUrl = listing.image.url;
+      orignalImageUrl = orignalImageUrl.replace("/upload", "/upload/h_200,w_300");
       // You might want to add a check here to ensure the user is authorized to edit the listing
-      res.render("edit.ejs", { listing });
+      res.render("edit.ejs", { listing, orignalImageUrl });
     }
   } catch (err) {
     req.flash("error", "An error occurred while retrieving the listing.");
@@ -57,7 +59,13 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  if (typeof req.file !== "undefined") {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    listing.image = { url, filename };
+    await listing.save();
+  }
   req.flash("success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
 };

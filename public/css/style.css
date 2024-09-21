@@ -159,3 +159,6 @@ body {
   display: flex;
   margin-top: 1rem;
 }
+.reviews-card{
+  padding-left: 0 !important;
+}

@@ -2,8 +2,8 @@
 
 <body>
   <div class="row">
+    <h1 class="col-8 offset-1"><%=listing.title %></h1>
     <div class="col-8 offset-2">
-      <h1><%=listing.title %></h1>
     </div>
     <div class="listing-card col-11 card-del">
       <img
@@ -73,12 +73,13 @@
       </form>
       <%} %>
       
-      <hr>
-
-      <p><b>All Reviews</b></p>
-      <div class="row">
+      
+      <% if (listing.reviews.length>0) {%>
+        <hr>
+        <div class="row">
+        <p><b>All Reviews</b></p>
         <% for(review of listing.reviews){ %>
-          <div class="card col-5 ms-3 mb-3">
+          <div class="card col-5 ms-3 mb-3 reviews-card">
             <div class="card-body">
               <h5 class="card-title">@<%= review.author.username %></h5>
               <p class="starability-result star-rating" data-rating="<%= review.rating %>"></p>
@@ -90,6 +91,11 @@
           <% } %>
         </div>
     </div>
+     <% } %>
   </div>
+<div class="col-6 offset-2 mb-3 mt-2">
+  <h3>Where you'll be</h3>
+  <div id="map"></div>
+</div>
   <br>
 </body>
