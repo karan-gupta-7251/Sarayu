@@ -153,8 +153,9 @@ body {
   margin-top: 1rem;
 }
 .reviews-card {
-  padding-left: 0 !important;
+  /* padding-left: 0 !important; */
 }
+
 
 /* Map */
 
