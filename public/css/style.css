@@ -153,9 +153,13 @@ body {
   margin-top: 1rem;
 }
 .reviews-card {
-  /* padding-left: 0 !important; */
-}
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 
+}
+.delete-review{
+  margin-left: 15px !important;
+}
 
 /* Map */
 
